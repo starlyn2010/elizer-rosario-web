@@ -9,13 +9,14 @@ export async function POST(request: Request) {
 
     if (!validation.success) {
       return NextResponse.json(
-        { success: false, message: "Datos inválidos. Revisa los campos." },
+        { success: false, message: "Datos invÃ¡lidos. Revisa los campos." },
         { status: 400 }
       );
     }
 
-    const { nombre, apellido, cedula, telefono, email, recinto_electoral } =
+    const { nombre, apellido, cedula, telefono, recinto_electoral } =
       validation.data;
+    let email = validation.data.email || "sin-correo@placeholder.com";
 
     const { data: existing } = await supabase
       .from("afiliados")
@@ -25,7 +26,7 @@ export async function POST(request: Request) {
 
     if (existing) {
       return NextResponse.json(
-        { success: false, message: "Esta cédula ya está registrada." },
+        { success: false, message: "Esta cÃ©dula ya estÃ¡ registrada." },
         { status: 409 }
       );
     }
@@ -49,12 +50,12 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      message: "¡Registro exitoso! Bienvenido al movimiento.",
+      message: "Â¡Registro exitoso! Bienvenido al movimiento.",
     });
   } catch (error) {
     console.error("Server error:", error);
     return NextResponse.json(
-      { success: false, message: "Error del servidor. Intenta más tarde." },
+      { success: false, message: "Error del servidor. Intenta mÃ¡s tarde." },
       { status: 500 }
     );
   }
